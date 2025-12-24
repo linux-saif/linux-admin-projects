@@ -1,0 +1,9 @@
+chmod 755 file.sh
+chmod 644 file.txt
+
+chown user:user file.txt
+chgrp developers file.txt
+
+umask 022
+
+chmod +t /shared
