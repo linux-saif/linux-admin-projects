@@ -1,0 +1,50 @@
+# LVM Troubleshooting Case Study – Disk Space Issue
+
+##  Overview
+This repository contains a **real-world Linux LVM troubleshooting scenario** where a mounted filesystem ran out of space even though additional disks were available on the server.
+
+The task demonstrates **professional troubleshooting methodology**, root cause analysis, and resolution using **Logical Volume Manager (LVM)** without downtime.
+
+---
+
+##  Environment Details
+- Operating System: Linux (RHEL / CentOS / Ubuntu)
+- Storage Type: LVM (Logical Volume Manager)
+- Filesystem: ext4
+- Mount Point: `/backup`
+- Volume Group: `vg_data`
+- Logical Volume: `lv_backup`
+
+---
+
+##  Problem Statement
+The `/backup` filesystem reported **100% disk usage**, causing applications to fail with disk space errors.
+
+### Error Observed
+```text
+No space left on device
+
+# disk usage check
+df -f
+
+# Output
+/dev/mapper/vg_data-lv_backup  1.0G  1.0G  0  100%  /backup
+
+1: Check Available Disks
+   lsblk
+
+An additional disk (/dev/sdc) was available but not configured in LVM
+
+2: Verify LVM Components
+pvs
+
+
+
+
+
+
+
+
+
+
+
