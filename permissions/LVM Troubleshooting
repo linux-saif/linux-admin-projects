@@ -10,7 +10,7 @@ The scenario covers how to:
 * Add a new disk to an existing system
 * Extend an LVM-based filesystem **without downtime**
 
-## ❗ Problem Statement
+##  Problem Statement
 
 The root filesystem or a mounted directory (e.g. `/data`) has **run out of disk space**, causing application failures.
 
@@ -35,7 +35,7 @@ The root filesystem or a mounted directory (e.g. `/data`) has **run out of disk 
 
 ---
 
-## ➕ Step 2: Add a New Disk
+##  Step 2: Add a New Disk
 
 A new disk `/dev/sdb` is attached to the server.
 
