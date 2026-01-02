@@ -1,42 +1,109 @@
-# LVM Troubleshooting Case Study – Disk Space Issue
+# Linux LVM Basic Task – Add Disk and Extend Filesystem
 
-##  Overview
-This repository contains a **real-world Linux LVM troubleshooting scenario** where a mounted filesystem ran out of space even though additional disks were available on the server.
+##  Project Overview
 
-The task demonstrates **professional troubleshooting methodology**, root cause analysis, and resolution using **Logical Volume Manager (LVM)** without downtime.
+This project demonstrates a **basic yet real-world Logical Volume Manager (LVM) task** commonly performed by Linux System Administrators.
+
+The scenario covers how to:
+
+* Identify a disk space issue
+* Add a new disk to an existing system
+* Extend an LVM-based filesystem **without downtime**
+
+## ❗ Problem Statement
+
+The root filesystem or a mounted directory (e.g. `/data`) has **run out of disk space**, causing application failures.
+
+### Symptoms:
+
+* Applications throwing "No space left on device"
+* Logs not rotating
+* File creation failing
+
+---step 1: Identify the Issue
+
+### Check disk usage
+       df -h
+
+### Identify LVM structure
+        lsblk
+        pvs
+        vgs
+        lvs
+
+ **Observation**: Volume Group has no free space available.
 
 ---
 
-##  Environment Details
-- Operating System: Linux (RHEL / CentOS / Ubuntu)
-- Storage Type: LVM (Logical Volume Manager)
-- Filesystem: ext4
-- Mount Point: `/backup`
-- Volume Group: `vg_data`
-- Logical Volume: `lv_backup`
+## ➕ Step 2: Add a New Disk
+
+A new disk `/dev/sdb` is attached to the server.
+
+### Verify disk detection
+
+      lsblk
+      fdisk -l
+
+## Step 3: Create Physical Volume (PV)
+      
+      pvcreate /dev/sdb
+
+ Verify: pvs
+
+
+##  Step 4: Extend Volume Group (VG)
+
+vgextend vg_data /dev/sdb
+
+      Verify: vgs
+
+## Volume Group now has free space available.
+
+##  Step 5: Extend Logical Volume (LV)
+
+### Extend LV by available free space
+
+      lvextend -l +100%FREE /dev/vg_data/lv_data
+
+   #Verify: lvs
+
+## Step 6: Resize Filesystem
+
+### For ext4 filesystem
+
+resize2fs /dev/vg_data/lv_data
+
+### For xfs filesystem
+
+xfs_growfs /data
+
+
+##  Step 7: Validation
+
+### Confirm new space
+
+```bash
+df -h
+```
+
+✔ Filesystem successfully extended **without reboot or downtime**.
 
 ---
 
-##  Problem Statement
-The `/backup` filesystem reported **100% disk usage**, causing applications to fail with disk space errors.
+##  Key Learnings
 
-### Error Observed
-```text
-No space left on device
+* Understanding LVM components: **PV → VG → LV**
+* Disk extension without impacting production
+* Real-world troubleshooting approach
 
-# disk usage check
-df -f
 
-# Output
-/dev/mapper/vg_data-lv_backup  1.0G  1.0G  0  100%  /backup
 
-1: Check Available Disks
-   lsblk
+### 👤 Author
 
-An additional disk (/dev/sdc) was available but not configured in LVM
+**Saif Khan**
 
-2: Verify LVM Components
-pvs
+Linux System Administrator
+
 
 
 
