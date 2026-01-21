@@ -1,9 +1,127 @@
-chmod 755 file.sh
-chmod 644 file.txt
+This project demonstrates basic Linux file and directory permissions, ownership management, and access control using standard Linux commands.
+It is designed for beginners and junior Linux administrators to understand how permissions work in real-world environments.
+# Prerequisites
 
-chown user:user file.txt
-chgrp developers file.txt
+    Linux system (Ubuntu / CentOS / RHEL / Fedora)
 
-umask 022
+    Basic command-line knowledge
 
-chmod +t /shared
+    Non-root user with sudo access
+
+ Task 1: Check Default File Permissions
+ Objective
+
+Understand default permissions assigned to files and directories.
+ Steps
+
+touch file1
+mkdir dir1
+ls -l
+
+ Output Explanation
+
+    -rw-r--r-- → File permissions
+
+    drwxr-xr-x → Directory permissions
+
+ Learning
+
+    Files don’t get execute permission by default
+
+    Directories require execute (x) permission to access
+
+ Task 2: Change File Permissions Using chmod
+ Objective
+
+Modify permissions using numeric mode.
+ Steps
+
+chmod 755 file1
+ls -l file1
+
+🔹 Permission Breakdown
+Number	Meaning
+7	rwx
+5	r-x
+5	r-x
+🔹 Result
+
+Owner can read, write, execute
+Group and others can read and execute
+📂 Task 3: Remove Write Permission from Group & Others
+🔹 Objective
+
+Restrict write access.
+🔹 Steps
+
+chmod go-w file1
+ls -l file1
+
+🔹 Learning
+
+Symbolic mode (go-w) is safer and easier to modify specific permissions.
+📂 Task 4: Change Ownership of a File
+🔹 Objective
+
+Assign file ownership to another user.
+🔹 Steps
+
+sudo chown testuser file1
+ls -l file1
+
+🔹 Learning
+
+Only root can change ownership.
+📂 Task 5: Change Group Ownership
+🔹 Objective
+
+Change file group ownership.
+🔹 Steps
+
+sudo chgrp developers file1
+ls -l file1
+
+📂 Task 6: Directory Permissions Test
+🔹 Objective
+
+Understand directory access behavior.
+🔹 Steps
+
+mkdir secure_dir
+chmod 700 secure_dir
+ls -ld secure_dir
+
+🔹 Result
+
+Only the owner can access the directory.
+📂 Task 7: Prevent File Deletion Using Permissions
+🔹 Objective
+
+Stop users from deleting files.
+🔹 Steps
+
+mkdir shared
+chmod 777 shared
+touch shared/data.txt
+chmod 644 shared/data.txt
+
+🔹 Explanation
+
+    File deletion depends on directory permissions, not file permissions
+
+📂 Task 8: Check umask Value
+🔹 Objective
+
+Understand default permission masking.
+🔹 Steps
+
+umask
+
+🔹 Learning
+
+    Default umask 022
+
+    Files: 666 - 022 = 644
+
+    Directories: 777 - 022 = 755
+
